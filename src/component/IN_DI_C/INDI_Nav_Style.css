@@ -1,0 +1,35 @@
+.ie_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    height: 70px;
+    align-items: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 0%;
+}
+
+.ie_container li{
+    font-size: 20px;
+    height: 5rem;
+    line-height: 4.8rem;
+    background-color: #ffffff;
+    color: black;
+    flex-grow: 1;
+    cursor: pointer;
+    padding: 5px;
+    border-right: 2px solid #e0e0e0;
+}
+
+.ie_container li:hover{
+    filter: brightness(85%);
+}
+
+.item-container{
+    margin-top: 20px;
+    position: relative;
+    width: 90%;
+}
+
+

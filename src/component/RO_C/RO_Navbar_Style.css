@@ -1,0 +1,28 @@
+.ro_container {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    background-color: #ffffff;
+    color: black;
+    height: 70px;
+    align-items: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 0%;
+}
+
+.ro_container li{
+    flex-grow: 1;
+    cursor: pointer;
+    padding: 5px;
+    border-right: 2px solid #e0e0e0;
+}
+
+.item-container{
+    margin-top: 20px;
+    position: relative;
+    width: 90%;
+}
+
+

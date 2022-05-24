@@ -1,38 +1,81 @@
-.App {
-  text-align: center;
+*{
+  box-sizing: border-box;
+  font-family: "FCRoundRegular";
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html{
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+div{
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
-.App-header {
+body {
+  position: relative;
+  margin: 0;
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-width: 100vh;
+  display: inline-block;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  text-indent: 30px;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.fontFCBold{
+  font-family: "FCRoundBold";
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.fontFCReg{
+  font-family: "FCRoundRegular";
+}
+
+.container{
+  margin : 30px auto;
+  width: 1000px;
+}
+
+.Horizontal-menu{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  list-style-type: none;
+  margin-top: 0%;
+  margin-bottom: 20px;
+  padding: 10px;
+  overflow: hidden;
+  background-color: white;
+  text-align: center;
+}
+
+.Horizontal-menu li{
+  text-indent: initial;
+  font-size: 15px;
+  align-self: baseline;
+  vertical-align: middle ;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.Horizontal-menu a{
+  width: max-content;
+  align-self: flex-start;
+  color: black;
+  text-decoration: none;
+  padding: 30px;
+}
+
+.Horizontal-menu img{
+  align-self: flex-start;
+}
+
+.special{
+  border-left: 2px solid black;
 }
