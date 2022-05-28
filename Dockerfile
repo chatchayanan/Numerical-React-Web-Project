@@ -2,10 +2,12 @@ FROM node:alpine3.14
 
 WORKDIR /app
 
-COPY . .
-
-ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app
 
 RUN npm install
 
-CMD ["npm","start"]
+COPY . /app
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]

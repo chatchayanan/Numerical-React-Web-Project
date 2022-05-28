@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Plotly from "plotly.js-dist";
 import TeX from "@matejmazur/react-katex";
 import { multiply, inv, sum, transpose } from "mathjs";
+import axios from "axios";
 
 //MULTIPLE LINEAR REGRESSION
 
@@ -62,6 +63,26 @@ const MeL_R = () => {
     setAY(["0"]);
     setXF(["0"]);
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/Linear", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "MutlipleLinearRegression") {
+            setAX(response.data.result[i].arr_X);
+            setAX2(response.data.result[i].arr_X2);
+            setAX3(response.data.result[i].arr_X3);
+            setAY(response.data.result[i].arr_Y);
+            setXF(response.data.result[i].X_find);
+          }
+        }
+      });
+  }
 
   const MULTIPLE_LINEAR_REGRESSION = () => {
     function another_Sum(x_arr, in1, in2) {
@@ -442,6 +463,15 @@ const MeL_R = () => {
         </Button>{" "}
       </div>
       <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
+        </Button>{" "}
+      </div>
+      <br />
+
       <div id="myout">{output}</div>
       <div className="graph">
         <div id="myChart"></div>

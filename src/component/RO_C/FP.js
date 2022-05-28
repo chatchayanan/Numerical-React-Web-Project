@@ -6,6 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import uuid from "react-uuid";
 import Box from "@mui/material/Box";
 import Plotly from "plotly.js-dist";
+import axios from "axios";
 
 const FP = () => {
   const [val_XR, setXR] = useState(0);
@@ -33,6 +34,24 @@ const FP = () => {
     setXL(0);
     setFun("");
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/rootofequation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "falseposition") {
+            setXR(response.data.result[i].val_XR);
+            setXL(response.data.result[i].val_XL);
+            setFun(response.data.result[i].fun);
+          }
+        }
+      });
+  }
 
   const FP_M = () => {
     var num = 0.2;
@@ -296,6 +315,11 @@ const FP = () => {
         <br />
         <div>
             <Button variant="primary" size="lg" type="summit" className="btn"> ยืนยัน </Button>{' '}
+        </div>
+
+        <br />
+        <div>
+            <Button variant="primary" size="lg" onClick={callAPI} className="btn"> ตัวอย่าง </Button>{' '}
         </div>
 
         <br />

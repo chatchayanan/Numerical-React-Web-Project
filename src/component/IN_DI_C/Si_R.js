@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TeX from "@matejmazur/react-katex";
 import { evaluate, compile } from "mathjs";
 import nerdamer from "nerdamer/all.min";
+import axios from "axios";
 
 //* Simpson Rule //
 
@@ -37,6 +38,24 @@ const Si_R = () => {
       setX2(0);
       setFun("");
     };
+
+    function callAPI() {
+      const headers = {
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+      };
+      axios
+        .get("http://localhost:4000/api/IntegrateAndDifferentiation", { headers })
+        .then((response) => {
+          for (let i = 0; i < response.data.result.length; i++) {
+            if (response.data.result[i].id === "Simpson") {
+              setX0(response.data.result[i].X0);
+              setX2(response.data.result[i].X2);
+              setFun(response.data.result[i].Fun);
+            }
+          }
+        });
+    }
     
 
     const Simpson_Rule = () => {
@@ -208,6 +227,15 @@ const Si_R = () => {
           </Button>{" "}
         </div>
         <br />
+
+        <div>
+          <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+            {" "}
+            ตัวอย่าง{" "}
+          </Button>{" "}
+        </div>
+        <br />
+
         <div id="myout">{output}</div>
         {answer}
       </Form>

@@ -1,3 +1,4 @@
+// Import dependencies
 const bcrypt = require("bcrypt");
 
 (async () => {

@@ -18,6 +18,14 @@ const Cram = () => {
         </dd>
       </div>
     );
+
+    const [defaultMat , setDefMat] = useState(
+      [
+        [2,3,1],
+        [3,4,5],
+        [1,-2,1]
+      ]
+    );
     const [NumMatrix, setNumMatrix] = useState(null);
     const [B, setB] = useState(null);
     const [output, setOut] = useState(null);
@@ -40,6 +48,7 @@ const Cram = () => {
       }
 
       if (MatrixSize >= 2 && MatrixSize <= 8) {
+        let j=0;
         try {
           setMatrix(
             matrix.map((row, indexRow = 1) => {
@@ -49,13 +58,16 @@ const Cram = () => {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   {row.map((indexColumn = 1) => {
+                    console.log(indexRow + "," + (j));
+                    //console.log(defaultMat[indexRow][indexColumn]);
+                    if(j%MatrixSize == 0) {j=0;}
                     return (
                       <input
                         style={{ width: "10%" }}
                         className="form-control"
                         key={uuid()}
                         type="text"
-                        defaultValue={0}
+                        defaultValue={defaultMat[indexRow][j++]}
                         name={indexRow + "," + indexColumn}
                       />
                     );
@@ -207,7 +219,7 @@ const Cram = () => {
   
       return (
         <div>
-          <h1 className="myheader">Conjugate Gradient Method</h1>
+          <h1 className="myheader">Cramer Rule</h1>
           <Form onSubmit={handleMatrix}>
             <h1 style={{ textIndent: "15%" }}>
               {" "}

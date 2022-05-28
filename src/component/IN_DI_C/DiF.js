@@ -9,6 +9,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import axios from "axios";
 
 //* DIFFERENTIATION and ORDINARY DIFFERENTIAL EQUATIONS
 
@@ -57,6 +58,24 @@ const DiF = () => {
     setH(0);
     setFun("");
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/IntegrateAndDifferentiation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "Differentiation") {
+            setX(response.data.result[i].X);
+            setH(response.data.result[i].H);
+            setFun(response.data.result[i].Fun);
+          }
+        }
+      });
+  }
 
   const DIFFERENTIATION = () => {
 
@@ -593,6 +612,15 @@ const DiF = () => {
         </Button>{" "}
       </div>
       <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
+        </Button>{" "}
+      </div>
+      <br />
+
       <div id="myout">{output}</div>
       {answer}
     </Form>

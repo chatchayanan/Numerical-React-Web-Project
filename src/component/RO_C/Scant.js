@@ -6,6 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import uuid from "react-uuid";
 import Box from "@mui/material/Box";
 import Plotly from "plotly.js-dist";
+import axios from "axios";
 
 const Scant = () => {
   const [val_Xi_0, setXi_0] = useState(0);
@@ -33,6 +34,24 @@ const Scant = () => {
     setXi_1(0);
     setFun("");
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/rootofequation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "Scant") {
+            setXi_0(response.data.result[i].val_Xi_0);
+            setXi_1(response.data.result[i].val_Xi_1);
+            setFun(response.data.result[i].fun);
+          }
+        }
+      });
+  }
 
   const S_M = () => {
     //! (1 / sqrt(7)) * x - 2 + (x * x) / 7.0
@@ -229,19 +248,6 @@ const Scant = () => {
   return (
     <Form onSubmit={confirm_Num} className="myform">
       <h2 className="fontFCBold">Scant Method</h2>
-      {/* 
-	  <dd>
-        <p style={{ textAlign: "justify" }}>
-          เป็นวิธีการที่ดัดแปลงมาจาก 'Binary Search
-          (การหาข้อมูลโดยแบ่งครึ่งจำนวนข้อมูลทั้งหมดไปเรื่อยๆ)'
-          โดยมีเงื่อนไขในการใช้ methodo นี้อยู่อย่างหนึ่ง นั่นก็คือ...
-        </p>
-        <p style={{ textAlign: "left", color: "red" }}>
-          {" "}
-          ค่า x ที่ใช้ต้องมีการเรียงลำดับมาแล้ว
-        </p>
-      </dd>
-	  */}
       <Form.Group>
         <Form.Label style={{ textIndent: 0, fontFamily: "FCRoundBold" }}>
           ค่าข้อมูล Xi ที่ 0
@@ -312,6 +318,15 @@ const Scant = () => {
         <Button variant="primary" size="lg" type="summit" className="btn">
           {" "}
           ยืนยัน{" "}
+        </Button>{" "}
+      </div>
+
+      <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
         </Button>{" "}
       </div>
 

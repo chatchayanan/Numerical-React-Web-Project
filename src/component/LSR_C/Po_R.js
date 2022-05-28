@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Plotly from "plotly.js-dist";
 import TeX from "@matejmazur/react-katex";
 import { multiply, inv } from "mathjs";
+import axios from "axios";
 
 //POLYNOMIAL REGRESSION
 
@@ -44,6 +45,24 @@ const Po_R = () => {
     setAY(["0"]);
     setXF(0);
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/Linear", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "PolynomialRegression") {
+            setAX(response.data.result[i].arr_X);
+            setAY(response.data.result[i].arr_Y);
+            setXF(response.data.result[i].X_find);
+          }
+        }
+      });
+  }
 
   const POLYNOMIAL_REGRESSION = () => {
     function another_Sum(x_arr, power) {
@@ -333,6 +352,15 @@ const Po_R = () => {
         <Button variant="primary" size="lg" type="summit" className="btn">
           {" "}
           ยืนยัน{" "}
+        </Button>{" "}
+      </div>
+
+      <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
         </Button>{" "}
       </div>
 

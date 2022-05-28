@@ -1,16 +1,18 @@
+// Import dependencies
 const express = require("express");
 
+// Import middlewares
 const auth = require("../middleware/auth");
 const { admin, editor, viewer } = require("../middleware/roles");
 
-//? ข้อมูลจำลอง (ฐานข้อมูลจำลอง)
+// Dummy data
 let messages = [{ id: 1, name: "Lorem ipsum dolor", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium nec ipsum nec elementum." }];
 
-//? router for express
+// Setup the router for express
 const router = express.Router();
 
 // *************************
-//TODO the route handlers (ตัวจัดการ Route)
+// Set up the route handlers
 // *************************
 
 router.get("/", [auth, viewer], (req, res) => {
@@ -21,10 +23,10 @@ router.get("/", [auth, viewer], (req, res) => {
 });
 
 router.post("/", [auth, editor], async (req, res) => {
-    // สร้าง message and และเพิ่มลงฐานข้อมูล
+    // Make a new message and add it
     messages.push({ id: messages.length + 1, name: req.body.name, content: req.body.content });
 
-    // ส่ง response
+    // Send response
     res.status(200).send({
         ok: true,
         result: messages
@@ -33,7 +35,7 @@ router.post("/", [auth, editor], async (req, res) => {
 
 router.put("/", [auth, editor], async (req, res) => {
     // Update the message
-    //! ไม่ได้ทำโค้ดส่วนนี้
+    // โค้ดนี้ไม่มีการใช้งาน
     // Send response
     res.status(200).send({
         ok: true,

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TeX from "@matejmazur/react-katex";
 import { evaluate, compile } from "mathjs";
 import nerdamer from "nerdamer/all.min";
+import axios from "axios";
 
 //? Trapezoial Rule //
 
@@ -34,6 +35,24 @@ const Tr_R = () => {
     setX1(0);
     setFun("");
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/IntegrateAndDifferentiation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "Trapezoial") {
+            setX0(response.data.result[i].X0);
+            setX1(response.data.result[i].X1);
+            setFun(response.data.result[i].Fun);
+          }
+        }
+      });
+  }
 
   const Trapezoial_rule = () => {
     //!---------------------------------------------------------
@@ -201,6 +220,15 @@ const Tr_R = () => {
         </Button>{" "}
       </div>
       <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
+        </Button>{" "}
+      </div>
+      <br />
+
       <div id="myout">{output}</div>
       {answer}
     </Form>

@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import uuid from "react-uuid";
 import Box from "@mui/material/Box";
 import Plotly from "plotly.js-dist";
+import axios from "axios";
 
 /* 
       x   | y=f(x)
@@ -55,6 +56,24 @@ const Inter_Po = () => {
     setAY(["0"]);
     setXF(0);
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/Interpolation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "Newton") {
+            setAX(response.data.result[i].arr_X);
+            setAY(response.data.result[i].arr_Y);
+            setXF(response.data.result[i].X_find);
+          }
+        }
+      });
+  }
 
   const IP_M = () => {
     let x_arr = arr_X.map((x) => Number(x)),
@@ -239,18 +258,6 @@ const Inter_Po = () => {
   return (
     <Form onSubmit={confirm_Num} className="myform">
       <h1 className="myheader">Interpolation (Newton) </h1>
-      {/*
-      <dd>
-        <p style={{ textAlign: "justify" }}>
-          เป็นวิธีการที่ดัดแปลงมาจาก 'Binary Search
-          (การหาข้อมูลโดยแบ่งครึ่งจำนวนข้อมูลทั้งหมดไปเรื่อยๆ)'
-          โดยมีเงื่อนไขในการใช้ methodo นี้อยู่อย่างหนึ่ง นั่นก็คือ...
-        </p>
-        <p style={{ textAlign: "left", color: "red" }}>
-          {" "}
-          ค่า x ที่ใช้ต้องมีการเรียงลำดับมาแล้ว
-        </p>
-      </dd>*/}
       <Form.Group>
         <Form.Label style={{ textIndent: 0, fontFamily: "FCRoundBold" }}>
           ค่าข้อมูล X (เป็นอาเรย์)
@@ -323,6 +330,15 @@ const Inter_Po = () => {
         </Button>{" "}
       </div>
       <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
+        </Button>{" "}
+      </div>
+      <br />
+
       <div id="myout">{output}</div>
       <div id="myTable" style={{ height: "100%" }}>
         {TableC}

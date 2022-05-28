@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import "katex/dist/katex.min.css";
 import TeX from "@matejmazur/react-katex";
 import { inv, multiply, reshape, concat, unaryMinus } from "mathjs";
+import axios from "axios";
 
 // Quadratic spline
 
@@ -52,6 +53,24 @@ const Spline_Qu = () => {
     setAY(["0"]);
     setXF(0);
   };
+
+  function callAPI() {
+    const headers = {
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+    };
+    axios
+      .get("http://localhost:4000/api/Interpolation", { headers })
+      .then((response) => {
+        for (let i = 0; i < response.data.result.length; i++) {
+          if (response.data.result[i].id === "SplineQuad") {
+            setAX(response.data.result[i].arr_X);
+            setAY(response.data.result[i].arr_Y);
+            setXF(response.data.result[i].X_find);
+          }
+        }
+      });
+  }
 
   const SP_M = () => {
     let x_arr = arr_X.map((x) => Number(x)),
@@ -578,6 +597,15 @@ const Spline_Qu = () => {
         </Button>{" "}
       </div>
       <br />
+
+      <div>
+        <Button variant="primary" size="lg" onClick={callAPI} className="btn">
+          {" "}
+          ตัวอย่าง{" "}
+        </Button>{" "}
+      </div>
+      <br />
+
       <div id="myout">{output}</div>
       <div id="mytable">{Table_A}</div>
       {check && (<h2 id=" h2_1" className="myh2"> A Invert Table</h2>)}
@@ -585,12 +613,7 @@ const Spline_Qu = () => {
       <div className="graph">
         <div id="myChart"></div>
       </div>
-      {/*check &&
-      ( <div>
-          <p style={{backgroundColor: 'white' , color: 'black', margin: 0 , padding:'3rem'}}>
-          <TeX math="Y_{target} = F\left({X_{target}}\right) = a_{i}X^2 + b_{i}X + c_{i}" />
-          </p>
-      </div>)*/}
+      
       {answer}
     </Form>
   );
