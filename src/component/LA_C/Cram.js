@@ -20,14 +20,13 @@ const Cram = () => {
       </div>
     );
 
-    const [defaultMat , setDefMat] = useState(
+    const [NumMatrix, setNumMatrix] = useState(
       [
-        [2,3,1],
-        [3,4,5],
-        [1,-2,1]
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]
       ]
     );
-    const [NumMatrix, setNumMatrix] = useState(null);
     const [B, setB] = useState(null);
     const [output, setOut] = useState(null);
 
@@ -49,7 +48,6 @@ const Cram = () => {
       }
 
       if (MatrixSize >= 2 && MatrixSize <= 8) {
-        let j=0;
         try {
           setMatrix(
             matrix.map((row, indexRow = 1) => {
@@ -61,14 +59,13 @@ const Cram = () => {
                   {row.map((indexColumn = 1) => {
                     //console.log(indexRow + "," + (j));
                     //console.log(defaultMat[indexRow][indexColumn]);
-                    if(j%MatrixSize == 0) {j=0;}
                     return (
                       <input
                         style={{ width: "10%" }}
                         className="form-control"
                         key={uuid()}
                         type="text"
-                        defaultValue={defaultMat[indexRow][j++]}
+                        defaultValue={0}
                         name={indexRow + "," + indexColumn}
                       />
                     );

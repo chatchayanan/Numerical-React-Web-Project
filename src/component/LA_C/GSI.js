@@ -14,7 +14,14 @@ const GSI = () => {
       <dd>กดปุ่มด้านล่างเพื่อเพิ่มแมตริกซ์ (+ : เพิ่มแถว/คอลัมน์ , - : ลบแถว/คอลัมน์)</dd>
     </div>
   );
-  const [NumMatrix, setNumMatrix] = useState(null);
+  const [NumMatrix, setNumMatrix] = useState(
+    [
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0]
+    ]
+  );
   const [B , setB] = useState(null);
   const [output, setOut] = useState(null);
 

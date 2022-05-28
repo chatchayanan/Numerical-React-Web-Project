@@ -18,7 +18,13 @@ const LU_D = () => {
       </dd>
     </div>
   );
-  const [NumMatrix, setNumMatrix] = useState(null);
+  const [NumMatrix, setNumMatrix] = useState(
+    [
+      [0,0,0],
+      [0,0,0],
+      [0,0,0]
+    ]
+  );
   const [B, setB] = useState(null);
   const [output, setOut] = useState(null);
 
