@@ -4,6 +4,7 @@ import uuid from "react-uuid";
 import TeX from "@matejmazur/react-katex";
 import {divide ,det} from "mathjs";
 import './LA_c.css';
+import axios from "axios";
 
 //* Cramer's Rule
 
@@ -58,7 +59,7 @@ const Cram = () => {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   {row.map((indexColumn = 1) => {
-                    console.log(indexRow + "," + (j));
+                    //console.log(indexRow + "," + (j));
                     //console.log(defaultMat[indexRow][indexColumn]);
                     if(j%MatrixSize == 0) {j=0;}
                     return (
@@ -109,6 +110,38 @@ const Cram = () => {
           </div>
         );
       }
+    }
+
+    function exampleMat(){
+      let matrix = new Array(3);
+      for (let i = 0; i < 3; i++) {
+        matrix[i] = new Array(3).fill(0);
+      }
+      let j=0;
+      setMatrix(
+        matrix.map((row, indexRow = 1) => {
+          return (
+            <div
+              key={indexRow}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              {row.map((indexColumn = 1) => {
+                if(j%3 == 0) {j=0;}
+                return (
+                  <input
+                    style={{ width: "10%" }}
+                    className="form-control"
+                    key={uuid()}
+                    type="text"
+                    defaultValue={NumMatrix[indexRow][j++]}
+                    name={indexRow + "," + indexColumn}
+                  />
+                );
+              })}
+            </div>
+          );
+        })
+      );
     }
 
     const addSize = (event) => {
@@ -215,7 +248,30 @@ const Cram = () => {
         event.preventDefault();
         Cramer_M();
         setB([]);
-      };
+    };
+
+    function callAPI() {
+        const headers = {
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsImVkaXRvciIsInZpZXdlciJdLCJpYXQiOjE2NTMwNjY0MzUsImV4cCI6MTY4NDYyNDAzNX0.pTeysLdrdUWa0hHVznTfMbtjoxz-a8Ae1IirCyWKqOc",
+        };
+        axios
+          .get("http://localhost:4000/api/LinearAlgebra", { headers })
+          .then((response) => {
+            for (let i = 0; i < response.data.result.length; i++) {
+              if (response.data.result[i].id === "Cramer") {
+                var temp = new Array(3);
+                temp[0] = response.data.result[i].Mat0;
+                temp[1] = response.data.result[i].Mat1;
+                temp[2] = response.data.result[i].Mat2;
+                setNumMatrix(temp);
+                setB(response.data.result[i].B);
+                exampleMat();
+              }
+            }
+          });
+    }
+  
   
       return (
         <div>
@@ -265,9 +321,9 @@ const Cram = () => {
               </Button>{" "}
             </div>
           </Form>
-  
+
           <br />
-  
+
           <Form onSubmit={confirm_Num} className="myform">
             <Form.Group>
               <Form.Label style={{ textIndent: 0, fontFamily: "FCRoundBold" }}>
@@ -289,20 +345,33 @@ const Cram = () => {
                 Matrix)
               </Form.Text>
             </Form.Group>
-  
+
             <br />
-  
+
             <div>
               <Button variant="primary" size="lg" type="summit" className="btn">
                 {" "}
                 ยืนยัน{" "}
               </Button>{" "}
             </div>
-  
+
             <br />
-  
+
+            <div>
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={callAPI}
+                className="btn"
+              >
+                {" "}
+                ตัวอย่าง{" "}
+              </Button>{" "}
+            </div>
+            <br />
+
             <div id="myout">{output}</div>
-            <br/>
+            <br />
           </Form>
         </div>
       );  
